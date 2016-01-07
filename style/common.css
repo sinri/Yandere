@@ -1,0 +1,108 @@
+.left {
+	float: left;
+}
+.right {
+	float: right;
+}
+.clear {
+	clear: both;
+}
+
+ul.inline, ol.inline {
+    list-style: none;
+}
+ul.inline>li, ol.inline>li {
+    display: inline-block;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.col-xs-1, .col-sm-1, .col-md-1, .col-lg-1, .col-xs-2, .col-sm-2, .col-md-2, .col-lg-2, .col-xs-3, .col-sm-3, .col-md-3, .col-lg-3, .col-xs-4, .col-sm-4, .col-md-4, .col-lg-4, .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6, .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8, .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10, .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+
+.left_border {
+	border-left: 1px solid lightgray;
+}
+.right_border {
+	border-right: 1px solid lightgray;
+}
+.top_border {
+	border-top: 1px solid lightgray;
+}
+.bottom_border{
+	border-bottom: 1px solid lightgray;
+}
+
+.bottom_margin_zero {
+	margin-bottom: 0px;
+}
+.right_margin_ten {
+	margin-right: 10px;
+}
+.top_margin_ten {
+	margin-top: 10px;
+}
+
+.container-fluid{
+	padding: 0px;
+}
+
+.header_title {
+	text-align: center;
+	font-size: 25px;
+}
+
+div.header_bar {
+	width: 100%;
+	height: 40px;
+	line-height: 35px;
+	margin: 0 auto 25px auto;
+	text-align: center;
+	background-color: #428BCA;
+	color: #fff;
+    font-size: 20px;
+}
+
+div.footer_bar {
+	width: 100%;
+	margin: 0 auto;
+	text-align: center;
+	background-color: #FFFFFF;
+	color: #CCCCCC;
+    font-size: 12px;
+}
+
+
+.md {
+	margin: 10px;
+    font-size: 18px;
+}
+.md p {
+    line-height: 35px;
+    margin: 10px auto;
+}
+.md table, table th, table td {
+	border: 1px solid silver;
+	border-collapse: collapse;
+	text-align: center;
+}
+.md table th{
+	padding: 5px 10px;
+	background: gray;
+	background-repeat: no-repeat;
+	background-position: left top;
+	color: white;
+} 
+.md table td{
+	padding: 5px;
+} 
+.red {
+	color:red;
+}
+.green {
+	color:green;
+}
+
+
