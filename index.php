@@ -40,6 +40,10 @@ require_once(__DIR__."/toolkit/init.php");
             text-align: left;
             float: left;
         }
+        label {
+            width: 80px;
+            display: inline-block;
+        }
         </style>
         <script src="./style/jquery.min.js"></script>
         <script type="text/javascript" src="./style/bootstrap.min.js"></script>
@@ -205,23 +209,31 @@ require_once(__DIR__."/toolkit/init.php");
                                 </div>
                             </div>
                             <div class="tab-pane" id="panel-update">
-                                <div class="col-xs-10 col-xs-offset-1">
+                                <div class="col-xs-12">
+                                    <h3>YAMAI</h3>
                                     <div>
-                                        <h3>YAMAI</h3>
-                                        System:
+                                        <label>System:</label>
                                         <input type="text" id="yamai_system">
-                                        Type:
-                                        <input type="text" id="yamai_type">
-                                        Name:
-                                        <input type="text" id="yamai_name">
                                     </div>
                                     <div>
-                                        <h3>KEYWORD</h3>
-                                        Keyword:
+                                        <label>Type:</label>
+                                        <input type="text" id="yamai_type">
+                                    </div>
+                                    <div>
+                                        <label>Name:</label>
+                                        <input type="text" id="yamai_name">
+                                    </div>
+                                    <h3>KEYWORD</h3>
+                                    <div>
+                                        <label>Keyword:</label>
                                         <input type="text" id="keyword">
-                                        Score:
+                                    </div>    
+                                    <div>
+                                        <label>Score:</label>
                                         <input type="text" id="score">
-                                        &nbsp;&nbsp;
+                                    </div>
+                                    <h3>Action</h3>
+                                    <div>
                                         <input type="button" class="btn" value="Update" onclick="onUpdateYK()">
                                         &nbsp;&nbsp;
                                         <span id="update_feedback"></span>
