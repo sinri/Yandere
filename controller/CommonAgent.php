@@ -43,3 +43,10 @@ elseif($act=="list_yamai"){
 	echo json_encode(array('list'=>($list_of_yamai===false?array():$list_of_yamai)));
 	exit();
 }
+elseif($act=="search"){
+	$keywords=getRequest('keywords',array());
+	$keywords = preg_split("/[\s,]+/", $keywords);
+	$list_of_yamai=KYStoreModel::searchKeywords($keywords);
+	echo json_encode(array('list'=>($list_of_yamai===false?array():$list_of_yamai)));
+	exit();
+}

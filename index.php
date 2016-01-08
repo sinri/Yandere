@@ -89,25 +89,7 @@ require_once(__DIR__."/toolkit/init.php");
                 if(data && data.list){
                     // $('#yamai_list').html('Update Done! '+ JSON.stringify(data));
 
-                    var h="";
-
-                    h=h+"<div class='yamai_list_item_box'>";
-                    h=h+"<div class='yamai_list_item_id'>ID</div>";
-                    h=h+"<div class='yamai_list_item_name'>NAME</div>";
-                    h=h+"<div class='yamai_list_item_type'>TYPE</div>";
-                    h=h+"<div class='yamai_list_item_system'>SYSTEM</div>";
-                    h=h+"<div class='yamai_list_item_keyword'>KEYWORD</div>";
-                    h=h+"<div style='clear:both'></div></div>";
-
-                    for (var i = 0; i <= data.list.length - 1; i++) {
-                        h=h+"<div class='yamai_list_item_box'>";
-                        h=h+"<div class='yamai_list_item_id'>"+data.list[i].yamai_id+"</div>";
-                        h=h+"<div class='yamai_list_item_name'>"+data.list[i].yamai_name+"</div>";
-                        h=h+"<div class='yamai_list_item_type'>"+data.list[i].yamai_type+"</div>";
-                        h=h+"<div class='yamai_list_item_system'>"+data.list[i].yamai_system+"</div>";
-                        h=h+"<div class='yamai_list_item_keyword'>"+data.list[i].keyword_list+"</div>";
-                        h=h+"<div style='clear:both'></div></div>";
-                    };
+                    var h=generateYamaiListWithData(data);
 
                     $('#yamai_list').html(h);
 
@@ -118,6 +100,57 @@ require_once(__DIR__."/toolkit/init.php");
             .fail(function( jqXHR, textStatus, errorThrown ) {
                 $('#yamai_list').html('AJAX Failed!');
             });
+        }
+
+        function searchKeywords(){
+            $.ajax({
+                url: './controller/CommonAgent.php',
+                type: 'POST',
+                data: {
+                    act: 'search',
+                    keywords: $('#search_keywords').val(),
+                },
+                dataType: 'json',
+            })
+            .done(function( data, textStatus, jqXHR ) {
+                if(data && data.list){
+                    // $('#yamai_list').html('Update Done! '+ JSON.stringify(data));
+
+                    var h=generateYamaiListWithData(data);
+
+                    $('#yamai_search_list').html(h);
+
+                }else{
+                    $('#yamai_search_list').html('Update Failed!');
+                }
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                $('#yamai_search_list').html('AJAX Failed!');
+            });
+        }
+
+        function generateYamaiListWithData(data){
+            var h="";
+
+            h=h+"<div class='yamai_list_item_box'>";
+            h=h+"<div class='yamai_list_item_id'>ID</div>";
+            h=h+"<div class='yamai_list_item_name'>NAME</div>";
+            h=h+"<div class='yamai_list_item_type'>TYPE</div>";
+            h=h+"<div class='yamai_list_item_system'>SYSTEM</div>";
+            h=h+"<div class='yamai_list_item_keyword'>KEYWORD</div>";
+            h=h+"<div style='clear:both'></div></div>";
+
+            for (var i = 0; i <= data.list.length - 1; i++) {
+                h=h+"<div class='yamai_list_item_box'>";
+                h=h+"<div class='yamai_list_item_id'>"+data.list[i].yamai_id+"</div>";
+                h=h+"<div class='yamai_list_item_name'>"+data.list[i].yamai_name+"</div>";
+                h=h+"<div class='yamai_list_item_type'>"+data.list[i].yamai_type+"</div>";
+                h=h+"<div class='yamai_list_item_system'>"+data.list[i].yamai_system+"</div>";
+                h=h+"<div class='yamai_list_item_keyword'>"+data.list[i].keyword_list+"</div>";
+                h=h+"<div style='clear:both'></div></div>";
+            };
+
+            return h;
         }
 
         $(document).ready(function(){
@@ -144,12 +177,30 @@ require_once(__DIR__."/toolkit/init.php");
                                 <a href="#panel-view" data-toggle="tab">View</a>
                             </li>
                             <li>
+                                <a href="#panel-search" data-toggle="tab">Search</a>
+                            </li>
+                            <li>
                                 <a href="#panel-update" data-toggle="tab">Update</a>
                             </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane active" id="panel-view">
+                                <div>
+                                    Refresh the data.
+                                    <button class="btn" onclick="refreshYamaiList()">Refresh</button>
+                                </div>
                                 <div id="yamai_list">
+
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="panel-search">
+                                <div>
+                                    <h3>Search Keywords</h3>
+                                    <p>Separate keywords with space.</p>
+                                    <textarea style="width:80%;height:50px;" id="search_keywords"></textarea>
+                                    <button class="btn" onclick="searchKeywords()">Search</button>
+                                </div>
+                                <div id="yamai_search_list">
 
                                 </div>
                             </div>
