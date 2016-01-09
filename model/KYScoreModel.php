@@ -46,6 +46,7 @@ class KYStoreModel
 		$keywords_in_sql="'".implode("','", $keywords)."'";
 		$sql="SELECT keyword_id FROM keyword WHERE keyword in ({$keywords_in_sql})";
 		$keyword_id_list=$db->getColumn($sql);
+		QLog::log("KYStoreModel::searchKeywords(".implode(',', $keywords).") -> sql: ".$sql." -> ".implode(',', $keyword_id_list));
 		if(empty($keyword_id_list) || count($keyword_id_list)!=count($keywords)){
 			return false;
 		}
@@ -60,11 +61,16 @@ class KYStoreModel
 			}
 
 			$yamai_list_once=$db->getColumn($sql);
+
+			QLog::log("KYStoreModel::searchKeywords once for $keyword_id -> sql: ".$sql." -> list: ".implode(',', $yamai_list_once)); 
+
 			if($yamai_list===null){
 				$yamai_list=$yamai_list_once;
 			}else{
 				$yamai_list=array_intersect($yamai_list, $yamai_list_once);
 			}
+
+			QLog::log("KYStoreModel::searchKeywords intersect list: ".implode(',', $yamai_list));
 
 			if(empty($yamai_list)){
 				return false;
@@ -75,8 +81,12 @@ class KYStoreModel
 			LEFT JOIN yamai_keyword yk ON y.yamai_id=yk.yamai_id
 			LEFT JOIN keyword k ON k.keyword_id=yk.keyword_id
 			WHERE y.yamai_id in (".implode(',', $yamai_list).") 
+			GROUP BY y.yamai_id
 		";
 		$list=$db->getAll($sql);
+
+		QLog::log("KYStoreModel::searchKeywords find details -> sql: ".$sql." -> ".implode(',', $keyword_id_list));
+
 		return $list;
 	}
 }
