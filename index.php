@@ -165,6 +165,10 @@ require_once(__DIR__."/toolkit/init.php");
         }
 
         function onKeywordInputChange(action){
+            if(!isNeedAutoComplete()){
+                return false;
+            }
+
             var act='';
             var keyword='';
             var target_id="";
@@ -229,7 +233,12 @@ require_once(__DIR__."/toolkit/init.php");
 
         }
 
+        function isNeedAutoComplete(){
+            return $('#auto_complete_switch').prop('checked');
+        }
+
         $(document).ready(function(){
+            $('#auto_complete_switch').prop('checked',true);
             refreshYamaiList();
         });
         </script>
@@ -282,6 +291,13 @@ require_once(__DIR__."/toolkit/init.php");
                             </div>
                             <div class="tab-pane" id="panel-update">
                                 <div class="col-xs-12">
+                                    <blockquote>
+                                        <p>
+                                            Switch for auto-complete function:
+                                            <input type="checkbox" id="auto_complete_switch">
+                                            Auto Complete When Inputing
+                                        </p>
+                                    </blockquote>
                                     <blockquote><p>YAMAI</p></blockquote>
                                     <div>
                                         <label>System:</label>
