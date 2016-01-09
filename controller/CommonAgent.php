@@ -50,3 +50,18 @@ elseif($act=="search"){
 	echo json_encode(array('list'=>($list_of_yamai===false?array():$list_of_yamai)));
 	exit();
 }
+elseif($act=='possible_keywords'){
+	$keyword=getRequest('keyword','');
+	$limit=getRequest('limit',10);
+	$keywords=KeywordModel::queryKeywordWithPrefix($keyword,$limit);
+	echo json_encode(array('list'=>($keywords===false?array():$keywords)));
+	exit();
+}
+elseif($act=='possible_yamai'){
+	$keyword=getRequest('keyword','');
+	$type=getRequest('type','');
+	$limit=getRequest('limit',10);
+	$keywords=YamaiModel::queryYamaiWithTypeAndPrefix($type,$keyword,$limit);
+	echo json_encode(array('list'=>($keywords===false?array():$keywords)));
+	exit();
+}

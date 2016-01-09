@@ -85,5 +85,22 @@ class YamaiModel
 		$list=$db->getAll($sql);
 		return $list;
 	}
+
+	public static function queryYamaiWithTypeAndPrefix($which,$prefix='',$limit=10){
+		global $db;
+
+		if(!in_array($which, array('yamai_type','yamai_system','yamai_name'))){
+			return false;
+		}
+
+		$keyword_quoted=$db->quote($prefix."%");
+
+		$sql="SELECT distinct `{$which}` as itemName FROM yamai 
+			WHERE `{$which}` like {$keyword_quoted} 
+			LIMIT ".intval($limit);
+		$list=$db->getAll($sql);
+		QLog::log("YamaiModel::queryYamaiWithTypeAndPrefix($which,$prefix,$limit)->sql: ".$sql." -> list: ".json_encode($list));
+		return $list;
+	}
 }
 

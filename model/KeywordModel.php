@@ -36,4 +36,18 @@ class KeywordModel
 		$keyword_id=$db->insert($sql);
 		return $keyword_id;
 	}
+
+	public static function queryKeywordWithPrefix($prefix='',$limit=10){
+		global $db;
+
+		$keyword_quoted=$db->quote($prefix."%");
+
+		$sql="SELECT `keyword` as itemName FROM `keyword` 
+			WHERE `keyword` like {$keyword_quoted}
+			ORDER BY keyword
+			LIMIT ".intval($limit);
+		$keyword_list=$db->getAll($sql);
+		QLog::log("KeywordModel::queryKeywordWithPrefix($prefix,$limit)->sql: ".$sql." -> list: ".json_encode($keyword_list));
+		return $keyword_list;
+	}
 }

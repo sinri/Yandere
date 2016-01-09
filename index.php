@@ -44,6 +44,13 @@ require_once(__DIR__."/toolkit/init.php");
             width: 80px;
             display: inline-block;
         }
+
+        .possible_result_area {
+            margin: 10px 0;
+        }
+        .possible_keyword_area_btn {
+            margin: 0px 10px;
+        }
         </style>
         <script src="./style/jquery.min.js"></script>
         <script type="text/javascript" src="./style/bootstrap.min.js"></script>
@@ -157,6 +164,71 @@ require_once(__DIR__."/toolkit/init.php");
             return h;
         }
 
+        function onKeywordInputChange(action){
+            var act='';
+            var keyword='';
+            var target_id="";
+            var target_container='';
+            var type='';
+            if(action=='keyword'){
+                act='possible_keywords';
+                type='';
+                keyword=$('#keyword').val();
+                target_id='keyword';
+                target_container='possible_keyword_area';
+            }else if(action=='system'){
+                act='possible_yamai';
+                type='yamai_system';
+                keyword=$('#yamai_system').val();
+                target_id='yamai_system';
+                target_container='possible_system_area';
+            }else if(action=='type'){
+                act='possible_yamai';
+                type='yamai_type';
+                keyword=$('#yamai_type').val();
+                target_id='yamai_type';
+                target_container='possible_type_area';
+            }else if(action=='yamai'){
+                act='possible_yamai';
+                type='yamai_name';
+                keyword=$('#yamai_name').val();
+                target_id='yamai_name';
+                target_container='possible_yamai_area';
+            }
+            $('#'+target_container).css('display','block');
+            $('#'+target_container).html('Querying...');
+            $.ajax({
+                url: './controller/CommonAgent.php',
+                type: 'POST',
+                data: {
+                    act: act,
+                    type: type,
+                    keyword: keyword,
+                },
+                dataType: 'json',
+            })
+            .done(function( data, textStatus, jqXHR ) {
+                if(data && data.list){
+                    if(data.list.length>0){
+                        var h="Might be ";//JSON.stringify(data);
+                        for (var i =0;i< data.list.length ; i++) {
+                            h=h+"<button class='btn possible_keyword_area_btn' onclick='$(\"#"+target_id+"\").val(\""+data.list[i].itemName+"\");$(\"#"+target_container+"\").css(\"display\",\"none\")'>"+data.list[i].itemName+"</button>";
+                        };
+                        $('#'+target_container).html(h);
+                    }
+                    else{
+                        $('#'+target_container).html('Query Result Empty!');
+                    }
+                }else{
+                    $('#'+target_container).html('Query Failed!');
+                }
+            })
+            .fail(function( jqXHR, textStatus, errorThrown ) {
+                $('#'+target_container).html('AJAX Failed!');
+            });
+
+        }
+
         $(document).ready(function(){
             refreshYamaiList();
         });
@@ -210,29 +282,47 @@ require_once(__DIR__."/toolkit/init.php");
                             </div>
                             <div class="tab-pane" id="panel-update">
                                 <div class="col-xs-12">
-                                    <h3>YAMAI</h3>
+                                    <blockquote><p>YAMAI</p></blockquote>
                                     <div>
                                         <label>System:</label>
-                                        <input type="text" id="yamai_system">
+                                        <input type="text" id="yamai_system" onkeyup="onKeywordInputChange('system')">
+                                        <div id="possible_system_area" class="possible_result_area"></div>
                                     </div>
                                     <div>
                                         <label>Type:</label>
-                                        <input type="text" id="yamai_type">
+                                        <input type="text" id="yamai_type" onkeyup="onKeywordInputChange('type')">
+                                        <div id="possible_type_area" class="possible_result_area"></div>
                                     </div>
                                     <div>
                                         <label>Name:</label>
-                                        <input type="text" id="yamai_name">
+                                        <input type="text" id="yamai_name" onkeyup="onKeywordInputChange('yamai')">
+                                        <div id="possible_yamai_area" class="possible_result_area"></div>
                                     </div>
-                                    <h3>KEYWORD</h3>
+                                    <blockquote><p>KEYWORD</p></blockquote>
                                     <div>
                                         <label>Keyword:</label>
-                                        <input type="text" id="keyword">
+                                        <input type="text" id="keyword" onkeyup="onKeywordInputChange('keyword')">
+                                        <!-- onchange="onKeywordInputChange()" -->
+                                        <div id="possible_keyword_area" class="possible_result_area"></div>
                                     </div>    
                                     <div>
                                         <label>Score:</label>
-                                        <input type="text" id="score">
+                                        <!-- <input type="text" id="score"> -->
+                                        <select name="score">
+                                            <option value='-5'>-5</option>
+                                            <option value='-4'>-4</option>
+                                            <option value='-3'>-3</option>
+                                            <option value='-2'>-2</option>
+                                            <option value='-1'>-1</option>
+                                            <option value='0'>0</option>
+                                            <option value='1'>1</option>
+                                            <option value='2'>2</option>
+                                            <option value='3' selected="selected">3</option>
+                                            <option value='4'>4</option>
+                                            <option value='5'>5</option>
+                                        </select>
                                     </div>
-                                    <h3>Action</h3>
+                                    <blockquote><p>Action</p></blockquote>
                                     <div>
                                         <input type="button" class="btn" value="Update" onclick="onUpdateYK()">
                                         &nbsp;&nbsp;
